@@ -2,8 +2,13 @@ import mongoose from 'mongoose';
 
 const EventSchema = new mongoose.Schema(
   {
-    locationIdentifier: { type: String, required: true },
-    createdBy: { type: String, required: true },
+    locationIdentifier: {
+      type: String,
+      required: true,
+      index: true,
+      sparse: true,
+    },
+    createdBy: { type: String, required: true, index: true, sparse: true },
   },
   { _id: true, timestamps: true }
 );
