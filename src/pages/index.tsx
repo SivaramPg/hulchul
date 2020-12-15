@@ -52,6 +52,7 @@ const HomeWrapper = styled.div`
 
 export default function Home() {
   const [events, setEvents] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     Axios.get('/api/event')
@@ -68,18 +69,18 @@ export default function Home() {
         <h1>Hulchul App</h1>
       </Navbar>
       <HomeWrapper>
-        <table>
-          <thead>
-            <tr>
-              <th>Sr. No.</th>
-              <th>Location</th>
-              <th>Created By</th>
-              <th>Created At</th>
-            </tr>
-          </thead>
-          <tbody>
-            {events.length &&
-              events.map((event: any, i: number) => (
+        {events.length > 0 && !isFetching ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Location</th>
+                <th>Created By</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((event: any, i: number) => (
                 <tr key={i}>
                   <td>{i + 1}.</td>
                   <td>{event.locationIdentifier}</td>
@@ -87,8 +88,11 @@ export default function Home() {
                   <td>{event.createdAt}</td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        ) : (
+          <p>Loading...</p>
+        )}
       </HomeWrapper>
     </>
   );
