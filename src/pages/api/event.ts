@@ -7,7 +7,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { method } = req;
 
-    if (method?.toLowerCase() === 'post') {
+    if (method?.toLowerCase() === 'get') {
+      await dbConnect();
+      const events = await Event.find({});
+      res.statusCode = 200;
+      res.json({ data: events });
+    } else if (method?.toLowerCase() === 'post') {
       await dbConnect();
 
       const event = new Event({
