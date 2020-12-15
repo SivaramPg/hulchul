@@ -1,5 +1,6 @@
-import Head from 'next/head';
 import Axios from 'axios';
+import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Navbar = styled.nav`
@@ -49,7 +50,15 @@ const HomeWrapper = styled.div`
   }
 `;
 
-export default function Home({ events }: { events: any }) {
+export default function Home() {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    Axios.get('/api/event')
+      .then(({ data }) => setEvents(data.data))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <>
       <Head>
@@ -69,28 +78,18 @@ export default function Home({ events }: { events: any }) {
             </tr>
           </thead>
           <tbody>
-            {events.map((event: any, i: number) => (
-              <tr key={i}>
-                <td>{i + 1}.</td>
-                <td>{event.locationIdentifier}</td>
-                <td>{event.createdBy}</td>
-                <td>{event.createdAt}</td>
-              </tr>
-            ))}
+            {events.length &&
+              events.map((event: any, i: number) => (
+                <tr key={i}>
+                  <td>{i + 1}.</td>
+                  <td>{event.locationIdentifier}</td>
+                  <td>{event.createdBy}</td>
+                  <td>{event.createdAt}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </HomeWrapper>
     </>
   );
-}
-
-export async function getStaticProps() {
-  const { data } = await Axios.get('http://localhost:3000/api/event');
-  const events = data.data;
-
-  return {
-    props: {
-      events,
-    },
-  };
 }
