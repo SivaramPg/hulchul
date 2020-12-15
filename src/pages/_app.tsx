@@ -10,6 +10,15 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     box-sizing: border-box;
+    font-family: 'JetBrainsMono';
+  }
+
+  @font-face {
+    font-family: 'JetBrainsMono';
+    src: url('fonts/JetBrainsMono-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: fallback;
   }
 `;
 
