@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import dbConnect from '../../../utils/dbConnect';
-import Event from '../../../models/Event';
+import dbConnect from '../utils/dbConnect';
+import Event from '../models/Event';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -15,9 +15,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } else if (method?.toLowerCase() === 'post') {
       await dbConnect();
 
+      const { locationIdentifier, createdBy } = req.body;
+
       const event = new Event({
-        locationIdentifier: 'mumbai',
-        createdBy: 'Sivaram',
+        locationIdentifier,
+        createdBy,
       });
       const savedEvent = await event.save();
       res.statusCode = 200;
