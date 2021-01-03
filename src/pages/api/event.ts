@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import dbConnect from '../utils/dbConnect';
-import Event from '../models/Event';
+import dbConnect from '../../../utils/dbConnect';
+import Event from '../../../models/Event';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
